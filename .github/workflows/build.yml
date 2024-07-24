@@ -7,7 +7,7 @@ on: push
 jobs:
   build:
     name: Julia ${{ matrix.version }} - ${{ matrix.os }} - ${{ matrix.arch }} - ${{ github.event_name }}
-    runs-on: ${{ matrix.os }}
+    runs-on: self-hosted
     timeout-minutes: 60
     strategy:
       fail-fast: false
@@ -15,10 +15,7 @@ jobs:
         version:
           - '1.10.4'
         os:
-          - windows-2022
           - ubuntu-20.04
-          - macos-12
-          - macos-14
         arch:
           - x64
     steps:
