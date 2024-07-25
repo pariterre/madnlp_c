@@ -43,7 +43,9 @@ set(BUILD_SCRIPT ${PROJECT_SOURCE_DIR}/compiler/build.jl)
 
 add_custom_command(
   OUTPUT ${PROJECT_BINARY_DIR}/MadNLP_env_status.txt
-  DEPENDS ${PROJECT_SOURCE_DIR}/Manifest.toml
+  DEPENDS ${PROJECT_SOURCE_DIR}/Project.toml
+  COMMAND ${JULIA_EXECUTABLE} --startup-file=no --project=./ -e "using Pkg; Pkg.develop(path='./MadNLP.jl')"
+  COMMAND ${JULIA_EXECUTABLE} --startup-file=no --project=./ -e "using Pkg; Pkg.develop(path='./MadNLP.jl/lib/MadNLPMumps')"
   COMMAND ${JULIA_EXECUTABLE} --startup-file=no --project=./ -e "using Pkg; Pkg.instantiate()"
   COMMAND ${JULIA_EXECUTABLE} --startup-file=no --project=./ -e "using Pkg; Pkg.status()" > ${PROJECT_BINARY_DIR}/MadNLP_env_status.txt
   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
@@ -64,7 +66,7 @@ add_custom_command(
 add_custom_command(
   OUTPUT ${PROJECT_BINARY_DIR}/PackageCompiler_env_status.txt
   DEPENDS ${PROJECT_BINARY_DIR}/MadNLP_C_parses.txt
-  DEPENDS ${PROJECT_SOURCE_DIR}/compiler/Manifest.toml
+  DEPENDS ${PROJECT_SOURCE_DIR}/compiler/Project.toml
   COMMAND ${JULIA_EXECUTABLE} --startup-file=no --project=compiler -e "using Pkg; Pkg.instantiate()"
   COMMAND ${JULIA_EXECUTABLE} --startup-file=no --project=compiler -e "using Pkg; Pkg.status()" > ${PROJECT_BINARY_DIR}/PackageCompiler_env_status.txt
   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
