@@ -1,0 +1,17 @@
+@PACKAGE_INIT@
+
+include(CMakeFindDependencyMacro)
+
+set(MADNLP_INCLUDE_DIR "@PROJECT_BINARY_DIR@/@MADNLP_C_FULLNAME@/include")
+set(MADNLP_LIB_DIR "@PROJECT_BINARY_DIR@/@MADNLP_C_FULLNAME@/lib/")
+set(MADNLP_LIBRARIES "@PROJECT_BINARY_DIR@/@MADNLP_C_FULLNAME@/lib/libmadnlp_c.so")
+
+# Specify the targets for consumers to link against
+add_library(madnlp::madnlp_c UNKNOWN IMPORTED)
+set_target_properties(madnlp::madnlp_c PROPERTIES
+  IMPORTED_LOCATION "${MADNLP_LIBRARIES}"
+  INTERFACE_INCLUDE_DIRECTORIES "${MADNLP_INCLUDE_DIR}"
+  INTERFACE_LIB_DIR "${MADNLP_LIB_DIR}"
+)
+
+mark_as_advanced(MADNLP_INCLUDE_DIRS MADNLP_LIBRARIES)

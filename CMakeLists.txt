@@ -89,3 +89,28 @@ add_custom_command(
 add_custom_target(madnlp_c ALL
   DEPENDS ${PROJECT_BINARY_DIR}/library_precompilation_dummy.txt
 )
+
+
+
+
+
+# Rename the custom target to avoid conflict
+add_custom_target(build_madnlp_c ALL
+  DEPENDS ${PROJECT_BINARY_DIR}/library_precompilation_dummy.txt
+)
+
+# Now create the imported target under a different name
+add_library(madnlp_c_imported SHARED IMPORTED)
+
+# Configure and install the Config.cmake file
+configure_file(
+  ${CMAKE_CURRENT_SOURCE_DIR}/MADNLPConfig.cmake.in
+  ${CMAKE_CURRENT_BINARY_DIR}/MADNLPConfig.cmake
+  @ONLY
+)
+
+include(GNUInstallDirs)
+install(
+  FILES ${CMAKE_CURRENT_BINARY_DIR}/MADNLPConfig.cmake
+  DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/MADNLP
+)
